@@ -1,0 +1,38 @@
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('database', 'username', 'password', {
+    host: 'localhost',
+    dialect: 'mysql'
+});
+
+const User = sequelize.define('user', {
+    name: Sequelize.STRING,
+    email: Sequelize.STRING,
+    password: Sequelize.STRING
+});
+
+// Crear la tabla en la base de datos
+User.sync();
+
+
+//Buscar todos los usuarios
+User.findAll().then(users => {
+    console.log(users);
+});
+
+//Buscar un usuario por ID
+User.findByPk(1).then(user => {
+    if (user) {
+        console.log(user.name);
+    } else {
+        console.log('Usuario no encontrado');
+    }
+});
+
+//Crear un nuevo usuario
+User.create({
+    name: 'John Doe',
+    email: 'johndoe@example.com',
+    password: 'password123'
+}).then(user => {
+    console.log('Usuario creado:', user.id);
+});
